@@ -1,0 +1,66 @@
+-- Question paper Link
+-- https://docs.google.com/document/d/1wiuYbTQslmfolQWgeVPB356csjK6yqOUBhgC7fM44o8/edit?tab=t.0
+
+-- SQL Tool: Pg admin 4
+
+-- ANSWER SHEET BY UDEMY
+-- https://docs.google.com/document/d/1swGZ0RG3KKqWqzmsI_qrMgjJ3lt39mtAJqRSMZy6Z-8/edit?usp=sharing
+
+
+-- ####MY ANSWER SHEET
+
+1. select * from cd.facilities
+
+2. select facid,name, membercost from cd.facilities
+
+3. select * from cd.facilities where membercost>0
+
+4. select facid,name,membercost,monthlymaintenance
+ from cd.facilities
+ where membercost < monthlymaintenance/50 
+and membercost >0
+
+5. select * from cd.facilities 
+where name ilike '%Tennis%'
+
+6. select * from cd.facilities where facid in ('1','5')
+
+7. select memid, surname, firstname, joindate from cd.members 
+where  joindate >= '2012-09-01 00:00:00'
+
+8. select distinct(surname) from cd.members order by surname limit 10
+
+9. select joindate from cd.mem
+bers where memid = (select max(memid) from cd.members)
+
+10. select count(*) from cd.facilities WHERE guestcost >= 10
+
+11. select facid,sum(slots)
+from cd.bookings
+where starttime >= '2012-09-01 00:00:00' 
+and starttime <= '2012-09-30 19:30:00'
+group by facid
+order by sum(slots)
+
+12.  select facid, Total_slots from
+(
+select facid,sum(slots) AS Total_slots
+from cd.bookings
+group by facid
+order by sum(slots)
+	)
+	where total_slots >= 1000
+	order by facid asc
+
+13. select bk.starttime, fa.name from cd.facilities fa
+inner join cd.bookings bk
+on fa.facid = bk.facid
+where date(bk.starttime)= '2012-09-21'
+and trim(fa.name) ilike 'Tennis%'
+
+14. select concat(mem.firstname||mem.surname)as full_name, bk.starttime 
+from cd.members as mem
+Inner join cd.bookings bk
+on mem.memid = bk.memid
+where mem.firstname = 'David' 
+and mem.surname = 'Farrell'
